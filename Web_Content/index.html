@@ -50,7 +50,7 @@
     var graphData = new google.visualization.DataTable();
     graphData.addColumn('string', 'Years');
     graphData.addColumn('number', 'Budget');
-    graphData.addColumn('number', 'Revenue');
+    graphData.addColumn('number', 'Recipts');
     graphData.addColumn('number', 'Profit');
 
     var graphData2 = new google.visualization.DataTable();
@@ -104,8 +104,10 @@
         </button>
         <ul class="dropdown-menu" id="DropDownValue" role="menu">
           <li><a href="#" onClick="dropValueChange('JudicialBranch');">Judicial Branch</a></li>
+          <li><a href="#" onClick="dropValueChange('DepartmentofAgriculture');">Department of Agriculture</a></li>
+          <li><a href="#" onClick="dropValueChange('DepartmentofCommerce');">Department of Commerce</a></li>
           <li><a href="#" onClick="dropValueChange('AffordableHousingProgram');">Affordable Housing Program</a></li>
-          <li><a href="#" onClick="dropValueChange('ChristopherColumbusFellowshipFoundation');">Christopher Columbus Fellowship Foundation</a></li>
+          <li><a href="#" onClick="dropValueChange('DepartmentofHealthandHumanServices');">Department of Health and Human Services</a></li>
           <li><a href="#" onClick="dropValueChange('CorpsofEngineers-CivilWorks');">Corps of Engineers-Civil Works</a></li>
         </ul>
       </div>
