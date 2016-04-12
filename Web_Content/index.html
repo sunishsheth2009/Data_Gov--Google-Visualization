@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Goverment Revenue</title>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+  <script type="text/javascript">
+  var vm = this;
+  vm.DPValue = "JudicialBranch";
+
+  function init(){
+    google.charts.load('current', {'packages': ['line']});
+    google.charts.setOnLoadCallback(drawMap);
+  }
+  init();
+
+  function dropValueChange(dp){
+    vm.DPValue = dp;
+    drawMap();
+  }
+
+  function drawMap() {
+    var container = document.getElementById('map_canvas1');
+	  container.innerHTML = '<img src="https://data-gov.tw.rpi.edu/images/ajax-loader.gif" /><br /><br />Please wait... The query may take some time to complete.';
+    var container = document.getElementById('map_canvas2');
+	  container.innerHTML = '<img src="https://data-gov.tw.rpi.edu/images/ajax-loader.gif" /><br /><br />Please wait... The query may take some time to complete.';
+    var sparqlproxy = "https://data-gov.tw.rpi.edu/sparql?";
+    var queryloc = "http://www.utdallas.edu/~sss140830/"+ vm.DPValue +".sparql";
+
+    var queryurl = sparqlproxy + "output=gvds&" + "query-uri=" + encodeURIComponent(queryloc) ;
+
+    var query = new google.visualization.Query(queryurl); // Send the query.
+    query.setTimeout(30);
+    query.send(handleQueryResponse);
+  }
+
+  function  handleQueryResponse(response){
+
+    if (response.isError()) {
+      alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+      return;
+    }
+
+    var data = response.getDataTable();
+    console.log(data);
+
+    var graphData = new google.visualization.DataTable();
+    graphData.addColumn('string', 'Years');
+    graphData.addColumn('number', 'Budget');
+    graphData.addColumn('number', 'Revenue');
+    graphData.addColumn('number', 'Profit');
+
+    var graphData2 = new google.visualization.DataTable();
+    graphData2.addColumn('string', 'Years');
+    graphData2.addColumn('number', 'Profit %');
+
+    var yearCount = 1976;
+    var rows = data.getNumberOfRows();
+    for (var i = 0; i < rows; i++ ){
+      var year = (1976 + i).toString();
+      var Budget = data.getValue(i, 1);
+      var Revenue = data.getValue(i, 2);
+      var profit = (Budget - Revenue);
+      var profitPercentage = profit/Budget * 100;
+      graphData.addRow([year, Budget, Revenue, profit]);
+      graphData2.addRow([year, profitPercentage]);
+    }
+
+    var options = {
+      chart: {
+        title: 'USA Goverment Revenue System',
+        subtitle: 'all values in dollars (USD)'
+      },
+      height: 500
+    };
+
+    var options2 = {
+      chart: {
+        title: 'USA Goverment Revenue System',
+        subtitle: 'all values in percentage'
+      },
+      height: 500
+    };
+
+    var chart = new google.charts.Line(document.getElementById('map_canvas1'));
+    chart.draw(graphData, options);
+    var chart2 = new google.charts.Line(document.getElementById('map_canvas2'));
+    chart2.draw(graphData2, options2);
+  }
+  </script>
+
+
+
+</head>
+<body>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          <span data-bind="label">Judicial Branch</span>&nbsp;<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" id="DropDownValue" role="menu">
+          <li><a href="#" onClick="dropValueChange('JudicialBranch');">Judicial Branch</a></li>
+          <li><a href="#" onClick="dropValueChange('AffordableHousingProgram');">Affordable Housing Program</a></li>
+          <li><a href="#" onClick="dropValueChange('ChristopherColumbusFellowshipFoundation');">Christopher Columbus Fellowship Foundation</a></li>
+          <li><a href="#" onClick="dropValueChange('CorpsofEngineers-CivilWorks');">Corps of Engineers-Civil Works</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+<div class = "row" style="margin:0;">
+    <div class="col-md-6">
+      <div id='map_canvas1'></div>
+    </div>
+    <div class="col-md-6">
+      <div id='map_canvas2'></div>
+    </div>
+</div>
+
+
+  <div class="row" style="margin-top: 30px;">
+    <table class="table table-bordered col-md-offset-1 col-md-10" style="width: 83.33333333%;">
+      <tbody>
+        <tr>
+          <th scope="row">Description</th>
+          <td>
+            Timeline for an agency's aggregated budget from 1976 to 2014.
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Team Name</th>
+          <td>Sunish - Mayank Team</td>
+        </tr>
+        <tr>
+          <th scope="row">Creator</th>
+          <td>
+            <ul>
+              <li>Sunish Sheth</li>
+              <li>Mayank Agarwal</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Created</th>
+          <td>2016/04/07</td>
+        </tr>
+        <tr>
+          <th scope="row">Datasets</th>
+          <td>
+            <ul>
+              <li>Dataset 401 (Public Budget Database - Budget Authority and offsetting receipts 1976-2014, Executive Office of the President)</li>
+              <li>Dataset 403 (Public Budget Database - Governmental receipts 1976-2014, Executive Office of the President)</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">SPARQL queries</th>
+          <td>
+            <ul>
+              <li>http://www.utdallas.edu/~sss140830/JudicialBranch.sparql</li>
+              <li>http://www.utdallas.edu/~sss140830/ChristopherColumbusFellowshipFoundation.sparql</li>
+              <li>http://www.utdallas.edu/~sss140830/AffordableHousingProgram.sparql</li>
+              <li>http://www.utdallas.edu/~sss140830/CorpsofEngineers-CivilWorks.sparql</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">SPARQL endpoint</th>
+          <td>http://data-gov.tw.rpi.edu/sparql</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+  $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
+
+    var $target = $( event.currentTarget );
+
+    $target.closest( '.btn-group' )
+    .find( '[data-bind="label"]' ).text( $target.text() )
+    .end()
+    .children( '.dropdown-toggle' ).dropdown( 'toggle' );
+
+    return false;
+
+  });
+  </script>
+</head>
+</html>
