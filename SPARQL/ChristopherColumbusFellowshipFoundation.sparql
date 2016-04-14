@@ -1,8 +1,9 @@
 prefix g1: <http://data-gov.tw.rpi.edu/vocab/Dataset_401>
-prefix g2: <http://data-gov.tw.rpi.edu/vocab/Dataset_403>
+prefix g2: <http://data-gov.tw.rpi.edu/vocab/Dataset_402>
+prefix g3: <http://data-gov.tw.rpi.edu/vocab/Dataset_403>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-SELECT ?year sum(xsd:double (?value1)) sum(xsd:double (?value2))
+SELECT ?year sum(xsd:double (?value1)) sum(xsd:double (?value2)) sum(xsd:double (?value3))
 WHERE
 {
 
@@ -14,11 +15,17 @@ WHERE
      }
    } UNION {
      GRAPH g2: {
-       ?s2 <http://data-gov.tw.rpi.edu/vocab/p/401/agency_name> "Christopher Columbus Fellowship Foundation" .
-       ?s2 ?year ?value2 .
+        ?s2 <http://data-gov.tw.rpi.edu/vocab/p/401/agency_name> "Christopher Columbus Fellowship Foundation".
+        ?s2 ?year ?value2 .
+        filter (regex(?year,"num(197[6-9]|19[89][0-9]|2[0-9]+)"))
+     }
+   } UNION {
+     GRAPH g3: {
+       ?s3 <http://data-gov.tw.rpi.edu/vocab/p/401/agency_name> "Christopher Columbus Fellowship Foundation".
+       ?s3 ?year ?value3 .
        filter (regex(?year,"num(197[6-9]|19[89][0-9]|2[0-9]+)"))
      }
    }
 }
-group by ?year
-order by ?year
+group by ?agency ?year
+order by ?agency ?year

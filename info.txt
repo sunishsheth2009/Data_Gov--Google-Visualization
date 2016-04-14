@@ -1,0 +1,5 @@
+Consider Entry3346. Each entry has data obtained over many years (1976-2014). Every entry corresponds to one agency name the corresponding account name. Our intension is to find the data corresponding to each agency name across all the account name for each year. So we need to add the data for the same agency name spread across multiple tuples for the account name. Thus we will find the data for that particular agency, for a particular year across all the account name.
+
+We find the same data from each dataset (401 - budget allocated, 402 - outlays/Expenditure, 403 - Recipts/Revenue) for a particular agency in a particular year to compare results.
+
+This will help us deduce better budget to Expenditure ratio and also take a look at the revenue model and the profit generated from each agency over the period and thus making wise decision on the amount of money allocated to each agency.

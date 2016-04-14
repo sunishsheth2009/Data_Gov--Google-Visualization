@@ -50,8 +50,8 @@
     var graphData = new google.visualization.DataTable();
     graphData.addColumn('string', 'Years');
     graphData.addColumn('number', 'Budget');
-    graphData.addColumn('number', 'Recipts');
-    graphData.addColumn('number', 'Profit');
+    graphData.addColumn('number', 'Expenditure');
+    graphData.addColumn('number', 'Revenue');
 
     var graphData2 = new google.visualization.DataTable();
     graphData2.addColumn('string', 'Years');
@@ -62,10 +62,11 @@
     for (var i = 0; i < rows; i++ ){
       var year = (1976 + i).toString();
       var Budget = data.getValue(i, 1);
-      var Revenue = data.getValue(i, 2);
-      var profit = (Budget - Revenue);
-      var profitPercentage = profit/Budget * 100;
-      graphData.addRow([year, Budget, Revenue, profit]);
+      var Expenditure = data.getValue(i, 2);
+      var Revenue = data.getValue(i, 3);
+      var profit = (Revenue - Expenditure);
+      var profitPercentage = (profit/Expenditure) * 100;
+      graphData.addRow([year, Budget, Expenditure, Revenue]);
       graphData2.addRow([year, profitPercentage]);
     }
 
@@ -131,7 +132,7 @@
         <tr>
           <th scope="row">Description</th>
           <td>
-            Timeline for an agency's aggregated budget from 1976 to 2014.
+            Timeline for an agency's aggregated Budget/ Expenditure /Revenue from 1976 to 2014. Finally calculating the Profit Percent per agency
           </td>
         </tr>
         <tr>
@@ -156,6 +157,7 @@
           <td>
             <ul>
               <li>Dataset 401 (Public Budget Database - Budget Authority and offsetting receipts 1976-2014, Executive Office of the President)</li>
+              <li>Dataset 402 (Public Budget Database - Outlays and offsetting receipts 1962-Current, Executive Office of the President)</li>
               <li>Dataset 403 (Public Budget Database - Governmental receipts 1976-2014, Executive Office of the President)</li>
             </ul>
           </td>
@@ -165,9 +167,11 @@
           <td>
             <ul>
               <li>http://www.utdallas.edu/~sss140830/JudicialBranch.sparql</li>
-              <li>http://www.utdallas.edu/~sss140830/ChristopherColumbusFellowshipFoundation.sparql</li>
+              <li>http://www.utdallas.edu/~sss140830/DepartmentofAgriculture.sparql</li>
               <li>http://www.utdallas.edu/~sss140830/AffordableHousingProgram.sparql</li>
               <li>http://www.utdallas.edu/~sss140830/CorpsofEngineers-CivilWorks.sparql</li>
+              <li>http://www.utdallas.edu/~sss140830/DepartmentofCommerce.sparql</li>
+              <li>http://www.utdallas.edu/~sss140830/DepartmentofHealthandHumanServices.sparql</li>
             </ul>
           </td>
         </tr>
